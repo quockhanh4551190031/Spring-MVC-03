@@ -24,7 +24,7 @@ public class ApplicationConfig {
 	    dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 	    dataSource.setUrl("jdbc:mysql://localhost:3306/postify?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectionAutoClose=true");
 	    dataSource.setUsername("root");
-	    dataSource.setPassword("1234");
+	    dataSource.setPassword("quockhanh");
 	    return dataSource;
 	}
 

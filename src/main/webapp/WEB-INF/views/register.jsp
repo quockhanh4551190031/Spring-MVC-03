@@ -30,7 +30,7 @@
 <body>
     <div class="register-container text-center">
         <h2 class="mb-4">Create Account</h2>
-        <form action="register" method="post" id="registerForm">
+        <form action="register" method="post" id="registerForm" enctype="multipart/form-data">
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text">👤</span>
