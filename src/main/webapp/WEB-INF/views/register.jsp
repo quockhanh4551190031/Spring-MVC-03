@@ -30,7 +30,7 @@
 <body>
     <div class="register-container text-center">
         <h2 class="mb-4">Create Account</h2>
-        <form action="register" method="post" id="registerForm" enctype="multipart/form-data">
+        <form action="<%= request.getContextPath() %>/register" method="post" enctype="multipart/form-data" id="registerForm">
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text">👤</span>
@@ -69,15 +69,14 @@
                         <%
                             }
                         }
-                        %>
+%>
                     </select>
                 </div>
             </div>
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text">🖼️</span>
-                    <input type="file" id="avatarFile" class="form-control" accept="image/jpeg,image/png">
-                    <input type="hidden" name="avatarBase64" id="avatarBase64">
+                    <input type="file" name="avatarFile" id="avatarFile" class="form-control" accept="image/jpeg,image/png">
                 </div>
             </div>
             <button type="submit" class="btn btn-success w-100">Register</button>
@@ -85,32 +84,5 @@
         <p class="mt-3">Already have an account? <a href="login">Login here</a></p>
         <p style="color:red;">${error}</p>
     </div>
-
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", function(event) {
-            const avatarFileInput = document.getElementById("avatarFile");
-            const avatarBase64Input = document.getElementById("avatarBase64");
-
-            if (avatarFileInput.files.length > 0) {
-                const file = avatarFileInput.files[0];
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const base64String = e.target.result;
-                    avatarBase64Input.value = base64String;
-                    // Gửi form sau khi đã có Base64
-                    document.getElementById("registerForm").submit();
-                };
-
-                reader.onerror = function() {
-                    alert("Không thể đọc file avatar!");
-                    event.preventDefault();
-                };
-
-                reader.readAsDataURL(file);
-                event.preventDefault(); // Ngăn form gửi ngay lập tức
-            }
-        });
-    </script>
 </body>
 </html>
