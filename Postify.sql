@@ -1,172 +1,143 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 10, 2025 lúc 04:52 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: postify
+-- ------------------------------------------------------
+-- Server version	8.0.41
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Cơ sở dữ liệu: `postify`
+-- Table structure for table `follows`
 --
 
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `follows`
---
-
+DROP TABLE IF EXISTS `follows`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `follows` (
-  `following_user_id` int(11) NOT NULL,
-  `followed_user_id` int(11) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `following_user_id` bigint NOT NULL,
+  `followed_user_id` bigint NOT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`following_user_id`,`followed_user_id`),
+  KEY `followed_user_id` (`followed_user_id`),
+  CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`following_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`followed_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Đang đổ dữ liệu cho bảng `follows`
+-- Dumping data for table `follows`
 --
 
-INSERT INTO `follows` (`following_user_id`, `followed_user_id`, `created_at`) VALUES
-(1, 6, '2025-04-09 15:29:27'),
-(1, 7, '2025-04-09 02:31:03'),
-(1, 8, '2025-04-09 02:31:01'),
-(1, 9, '2025-04-09 15:29:26'),
-(1, 10, '2025-04-09 15:29:26'),
-(1, 11, '2025-04-09 15:29:25');
-
--- --------------------------------------------------------
+LOCK TABLES `follows` WRITE;
+/*!40000 ALTER TABLE `follows` DISABLE KEYS */;
+INSERT INTO `follows` VALUES (1,6,'2025-04-09 22:29:27.000000'),(1,7,'2025-04-09 09:31:03.000000'),(1,8,'2025-04-09 09:31:01.000000'),(1,9,'2025-04-09 22:29:26.000000'),(1,10,'2025-04-09 22:29:26.000000'),(1,11,'2025-04-09 22:29:25.000000');
+/*!40000 ALTER TABLE `follows` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Cấu trúc bảng cho bảng `posts`
+-- Table structure for table `place`
 --
 
+DROP TABLE IF EXISTS `place`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `place` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `place`
+--
+
+LOCK TABLES `place` WRITE;
+/*!40000 ALTER TABLE `place` DISABLE KEYS */;
+INSERT INTO `place` VALUES (1,'Hà Nội'),(2,'TP. Hồ Chí Minh'),(3,'Đà Nẵng'),(4,'Hải Phòng'),(5,'Cần Thơ');
+/*!40000 ALTER TABLE `place` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `posts` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `body` text DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `status` varchar(30) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `body` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Đang đổ dữ liệu cho bảng `posts`
+-- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`id`, `title`, `body`, `user_id`, `status`, `created_at`) VALUES
-(1, 'Bài viết 1', 'Nội dung bài viết 1', 1, 'public', '2025-04-08 21:33:42'),
-(2, 'Bài viết 2', 'Nội dung bài viết 2', 2, 'public', '2025-04-08 21:33:42'),
-(3, 'Bài viết 3', 'Nội dung bài viết 3', 3, 'draft', '2025-04-08 21:33:42'),
-(4, 'Bài viết 4', 'Nội dung bài viết 4', 4, 'public', '2025-04-08 21:33:42'),
-(5, 'Bài viết 5', 'Nội dung bài viết 5', 5, 'draft', '2025-04-08 21:33:42'),
-(6, 'Bài viết 6', 'Nội dung bài viết 6', 6, 'public', '2025-04-08 21:33:42'),
-(7, 'Bài viết 7', 'Nội dung bài viết 7', 7, 'private', '2025-04-08 21:33:42'),
-(8, 'Bài viết 8', 'Nội dung bài viết 8', 8, 'public', '2025-04-08 21:33:42'),
-(9, 'Bài viết 9', 'Nội dung bài viết 9', 9, 'draft', '2025-04-08 21:33:42'),
-(10, 'Bài viết 10', 'Nội dung bài viết 10', 10, 'public', '2025-04-08 21:33:42'),
-(11, 'siuuuu', 'Siuuuuuu', 1, 'public', '2025-04-08 21:34:09'),
-(12, 'siuu', 'siuuuuu', 1, 'public', '2025-04-09 02:30:42');
-
--- --------------------------------------------------------
+LOCK TABLES `posts` WRITE;
+/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
+INSERT INTO `posts` VALUES (1,'Bài viết 1','Nội dung bài viết 1',1,'public','2025-04-09 04:33:42.000000'),(2,'Bài viết 2','Nội dung bài viết 2',2,'public','2025-04-09 04:33:42.000000'),(3,'Bài viết 3','Nội dung bài viết 3',3,'draft','2025-04-09 04:33:42.000000'),(4,'Bài viết 4','Nội dung bài viết 4',4,'public','2025-04-09 04:33:42.000000'),(5,'Bài viết 5','Nội dung bài viết 5',5,'draft','2025-04-09 04:33:42.000000'),(6,'Bài viết 6','Nội dung bài viết 6',6,'public','2025-04-09 04:33:42.000000'),(7,'Bài viết 7','Nội dung bài viết 7',7,'private','2025-04-09 04:33:42.000000'),(8,'Bài viết 8','Nội dung bài viết 8',8,'public','2025-04-09 04:33:42.000000'),(9,'Bài viết 9','Nội dung bài viết 9',9,'draft','2025-04-09 04:33:42.000000'),(10,'Bài viết 10','Nội dung bài viết 10',10,'public','2025-04-09 04:33:42.000000'),(11,'siuuuu','Siuuuuuu',1,'public','2025-04-09 04:34:09.000000'),(12,'siuu','siuuuuu',1,'public','2025-04-09 09:30:42.000000');
+/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `date_of_birth` date DEFAULT NULL,
+  `place_id` bigint DEFAULT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  KEY `fk_place` (`place_id`),
+  CONSTRAINT `fk_place` FOREIGN KEY (`place_id`) REFERENCES `place` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
-(1, 'user', '123', '2025-04-08 21:31:33'),
-(2, 'user1', 'pass1', '2025-04-08 21:33:28'),
-(3, 'user2', 'pass2', '2025-04-08 21:33:28'),
-(4, 'user3', 'pass3', '2025-04-08 21:33:28'),
-(5, 'user4', 'pass4', '2025-04-08 21:33:28'),
-(6, 'user5', 'pass5', '2025-04-08 21:33:28'),
-(7, 'user6', 'pass6', '2025-04-08 21:33:28'),
-(8, 'user7', 'pass7', '2025-04-08 21:33:28'),
-(9, 'user8', 'pass8', '2025-04-08 21:33:28'),
-(10, 'user9', 'pass9', '2025-04-08 21:33:28'),
-(11, 'user10', 'pass10', '2025-04-08 21:33:28');
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'user','123',NULL,NULL,NULL,NULL,'2025-04-09 04:31:33.000000'),(2,'user1','pass1',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(3,'user2','pass2',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(4,'user3','pass3',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(5,'user4','pass4',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(6,'user5','pass5',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(7,'user6','pass6',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(8,'user7','pass7',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(9,'user8','pass8',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(10,'user9','pass9',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(11,'user10','pass10',NULL,NULL,NULL,NULL,'2025-04-09 04:33:28.000000'),(15,'danh','1234','skynghia52@gmail.com','2004-08-14',NULL,'/uploads/1744814633863.jpg','2025-04-16 13:35:23.484157');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Chỉ mục cho các bảng đã đổ
---
-
---
--- Chỉ mục cho bảng `follows`
---
-ALTER TABLE `follows`
-  ADD PRIMARY KEY (`following_user_id`,`followed_user_id`),
-  ADD KEY `followed_user_id` (`followed_user_id`);
-
---
--- Chỉ mục cho bảng `posts`
---
-ALTER TABLE `posts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Chỉ mục cho bảng `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
-
---
--- AUTO_INCREMENT cho các bảng đã đổ
---
-
---
--- AUTO_INCREMENT cho bảng `posts`
---
-ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT cho bảng `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- Các ràng buộc cho các bảng đã đổ
---
-
---
--- Các ràng buộc cho bảng `follows`
---
-ALTER TABLE `follows`
-  ADD CONSTRAINT `follows_ibfk_1` FOREIGN KEY (`following_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `follows_ibfk_2` FOREIGN KEY (`followed_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Các ràng buộc cho bảng `posts`
---
-ALTER TABLE `posts`
-  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-04-16 23:06:04
