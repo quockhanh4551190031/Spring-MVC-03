@@ -31,7 +31,7 @@
                             for (User follower : followers) {
                         %>
                         <li class="mb-2">
-                            <img src="<%= follower.getAvatar() != null ? request.getContextPath() + follower.getAvatar() : request.getContextPath() + "/resources/images/avt1.jpg" %>"
+                            <img src="<%= follower.getAvatar() != null ? request.getContextPath() + follower.getAvatar() : request.getContextPath() + "/resource/images/avt1.jpg" %>"
                                  alt="Avatar" class="rounded-circle me-2" width="30">
                             <%= follower.getUsername() %>
                         </li>

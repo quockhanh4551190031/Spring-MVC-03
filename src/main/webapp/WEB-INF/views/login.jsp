@@ -16,7 +16,7 @@
                 <!-- Left side (image) -->
                 <div class="d-none d-md-flex align-items-center justify-content-center flex-column"
                      style="flex: 1; padding: 20px;">
-                    <img src="Image/How-To-Say-Hello-in-10-Languages.jpg"
+                    <img src="uploads/avt1.jpg"
                          alt="Login Illustration" class="img-fluid"
                          style="max-width: 200px;">
                 </div>

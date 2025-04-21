@@ -102,11 +102,25 @@ public class AuthController {
             if (!avatarFile.isEmpty()) {
                 System.out.println("Uploading avatar: " + avatarFile.getOriginalFilename());
                 validateAvatar(avatarFile);
-                String fileName = System.currentTimeMillis() + "_" + avatarFile.getOriginalFilename();
+             // Lấy đuôi mở rộng của tệp gốc (ví dụ: .jpg, .png)
+                String originalFileName = avatarFile.getOriginalFilename();
+                String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+                
+                // Tạo tên tệp mới với timestamp
+                String fileName = System.currentTimeMillis() + fileExtension;
                 Path path = Paths.get("src/main/webapp/uploads/" + fileName);
-                Files.createDirectories(path.getParent());
-                avatarFile.transferTo(path);
-                user.setAvatar("/uploads/" + fileName);
+                
+                try {
+                    Files.createDirectories(path.getParent()); // Tạo thư mục uploads/ nếu chưa tồn tại
+                    avatarFile.transferTo(path); // Lưu tệp vào thư mục
+                    user.setAvatar("/uploads/" + fileName); // Lưu đường dẫn vào cơ sở dữ liệu
+                    System.out.println("Avatar saved to: " + path.toString());
+                } catch (IOException e) {
+                    throw new IOException("Lỗi khi lưu tệp avatar: " + e.getMessage());
+                }
+            } else {
+                // Nếu không có tệp tải lên, sử dụng hình ảnh mặc định
+                user.setAvatar("/resource/images/avt.jpg");
             }
 
             if (userService.registerUser(user)) {

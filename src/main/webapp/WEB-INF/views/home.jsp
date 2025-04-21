@@ -50,7 +50,7 @@ if (user == null)
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <!-- Avatar + Username -->
                         <div class="d-flex align-items-center">
-                            <img src="<%= ufed.getAvatar() != null ? request.getContextPath() + ufed.getAvatar() : request.getContextPath() + "/resources/images/avt.jpg" %>"
+                            <img src="<%= ufed.getAvatar() != null ? request.getContextPath() + ufed.getAvatar() : request.getContextPath() + "/resource/images/avt.jpg" %>"
                                  alt="Avatar" class="rounded-circle me-2" width="30">
                             <span class="text-truncate" style="max-width: 120px;"><%=ufed.getUsername()%></span>
                         </div>
